@@ -1,6 +1,6 @@
 import React from 'react';
 import cssmodules from 'react-css-modules';
-import styles from './randomnumbercontent.cssmodule.css';
+import styles from './randomcustomcontent.cssmodule.css';
 
 import Card from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
@@ -9,6 +9,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 function processRange(start, end) {
   const range = {};
@@ -35,31 +37,40 @@ function randomFromRange(start, end, count, isRepeated) {
 }
 
 @cssmodules(styles)
-class RandomNumberContent extends React.Component {
+class RandomCustomContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      from: 0,
-      to: 100,
+      items: ['default0', 'default1'],
       count: 1,
       isRepeated: false,
       result: []
     };
     this.handleRandom = this.handleRandom.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.handleFromChange = this.handleFromChange.bind(this);
-    this.handleToChange = this.handleToChange.bind(this);
-    this.handleCountChange = this.handleCountChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
   }
 
   handleRandom() {
     this.handleOpen();
-    let rand = 0;
-    rand = randomFromRange(this.state.from, this.state.to, this.state.count, this.state.isRepeated);
-    this.setState({result: rand});
+    let rand = [];
+    let result = [];
+    rand = randomFromRange(0, this.state.items.length - 1, this.state.count, this.state.isRepeated);
+    result = rand.map((value) => (
+      this.state.items[value]
+    ));
+    this.setState({result});
+  }
+
+  handleAdd() {
+    const items = this.state.items;
+    const value = `default${items.length}`;
+    items.push(value);
+    this.setState({items});
   }
 
   handleOpen() {
@@ -70,16 +81,18 @@ class RandomNumberContent extends React.Component {
     this.setState({open: false});
   }
 
-  handleFromChange(event) {
-    this.setState({from: event.target.value});
-  }
-
-  handleToChange(event) {
-    this.setState({to: event.target.value});
-  }
-
-  handleCountChange(event) {
-    this.setState({count: event.target.value});
+  handleInputChange(event) {
+    const obj = {};
+    const id = event.target.id;
+    const value = event.target.value;
+    const regexResult = id.match(/item(.+)/);
+    if (regexResult) {
+      obj.items = this.state.items;
+      obj.items[regexResult[1]] = value;
+    } else {
+      obj[id] = value;
+    }
+    this.setState(obj);
   }
 
   handleCheck(event, isInputChecked) {
@@ -115,38 +128,45 @@ class RandomNumberContent extends React.Component {
         modal={false}
         autoScrollBodyContent
         open={this.state.open}
-        onRequestClose={this.handleClose}
+        onRequestClose={this.handleAdd}
       >
         <br />
         {dialogContent}
       </Dialog>
     );
 
+    const items = this.state.items.map((value, index) => (
+      <div key={`item${index}`}>
+        <TextField
+          hintText="Please Input Text"
+          type="text"
+          id={`item${index}`}
+          floatingLabelText={index.toString()}
+          defaultValue={value}
+          onChange={this.handleInputChange}
+        />
+        <br />
+      </div>
+    ));
+
     return (
-      <div className="randomnumbercontent-component" styleName="randomnumbercontent-component">
+      <div className="randomcustomcontent-component" styleName="randomcustomcontent-component">
         <Card>
-          <TextField
-            hintText="Please Input Number"
-            floatingLabelText="From"
-            defaultValue={this.state.from}
-            type="number"
-            onChange={this.handleFromChange}
-          />
+          <FloatingActionButton
+            styleName="addButton"
+            onTouchTap={this.handleAdd}
+          >
+            <ContentAdd />
+          </FloatingActionButton>
           <br />
-          <TextField
-            hintText="Please Input Number"
-            floatingLabelText="To"
-            defaultValue={this.state.to}
-            type="number"
-            onChange={this.handleToChange}
-          />
-          <br />
+          {items}
           <TextField
             hintText="Please Input Number"
             floatingLabelText="Count"
-            defaultValue={this.state.count}
+            id="count"
             type="number"
-            onChange={this.handleCountChange}
+            defaultValue={this.state.count}
+            onChange={this.handleInputChange}
           />
           <br /><br />
           <Checkbox
@@ -169,8 +189,8 @@ class RandomNumberContent extends React.Component {
   }
 }
 
-RandomNumberContent.displayName = 'RandomNumberContent';
-RandomNumberContent.propTypes = {};
-RandomNumberContent.defaultProps = {};
+RandomCustomContent.displayName = 'RandomCustomContent';
+RandomCustomContent.propTypes = {};
+RandomCustomContent.defaultProps = {};
 
-export default RandomNumberContent;
+export default RandomCustomContent;

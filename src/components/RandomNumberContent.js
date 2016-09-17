@@ -57,7 +57,7 @@ class RandomNumberContent extends React.Component {
 
   handleRandom() {
     this.handleOpen();
-    let rand = 0;
+    let rand = [];
     rand = randomFromRange(this.state.from, this.state.to, this.state.count, this.state.isRepeated);
     this.setState({result: rand});
   }
