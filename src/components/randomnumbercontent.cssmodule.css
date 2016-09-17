@@ -1,0 +1,22 @@
+.randomnumbercontent-component {
+    width: 80%;
+    height: 80vh;
+    padding: 0 10% 0 10%;
+    margin: 5vh 0 5vh 0;
+    text-align: center;
+}
+
+.checkbox {
+    display: inline-block !important;
+    width: 280px !important;
+}
+
+.button {
+    margin: 12px;
+    width: 256px;
+}
+
+.dialogContent {
+    font-size: 28px;
+    text-align: center;
+}

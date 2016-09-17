@@ -1,0 +1,17 @@
+.maincontent-component {
+    width: 80%;
+    height: 80vh;
+    padding: 0 10% 0 10%;
+    margin: 5vh 0 5vh 0;
+    text-align: center;
+}
+
+.maincontent-component img {
+    border-radius: 4px;
+    background: #fff;
+}
+
+.primary-button {
+    margin: 12px;
+    width: inherit;
+}
