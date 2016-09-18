@@ -1,7 +1,6 @@
 import React from 'react';
 import './app.css';
 import AppBar from 'material-ui/AppBar';
-import MainContent from './MainContent';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import { Link } from 'react-router';

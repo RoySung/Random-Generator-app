@@ -1,5 +1,5 @@
 .randomcustomcontent-component {
-  width: 80%;
+    width: 80%;
     height: 80vh;
     padding: 0 10% 0 10%;
     margin: 5vh 0 5vh 0;
@@ -19,4 +19,10 @@
 .dialogContent {
     font-size: 28px;
     text-align: center;
+}
+
+.addButton {
+    float: right;
+    position: absolute;
+    right: 10%;
 }
