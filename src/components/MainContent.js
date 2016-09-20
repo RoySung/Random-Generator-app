@@ -3,7 +3,7 @@ import cssmodules from 'react-css-modules';
 import styles from './maincontent.cssmodule.css';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-
+import { User } from '../actions/user';
 const yeomanImage = require('../images/yeoman.png');
 
 const numberLink = <Link to="/number" />;
@@ -11,6 +11,21 @@ const customLink = <Link to="/custom" />;
 
 @cssmodules(styles)
 class MainContent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.logOut = this.logOut.bind(this);
+  }
+
+  logOut() {
+    const user = new User();
+    user.logoutCloud().then(() => {
+      console.log('Logout Success!');
+      this.context.router.push('/login');
+    })
+    .catch(() => {
+      console.log('Logout Fail!');
+    });
+  }
 
   render() {
     return (
@@ -30,6 +45,13 @@ class MainContent extends React.Component {
           styleName="primary-button"
           containerElement={customLink}
         />
+        <br />
+        <RaisedButton
+          label="Logout"
+          primary
+          styleName="primary-button"
+          onTouchTap={this.logOut}
+        />
       </div>
     );
   }
@@ -38,5 +60,8 @@ class MainContent extends React.Component {
 MainContent.displayName = 'MainContent';
 MainContent.propTypes = {};
 MainContent.defaultProps = {};
+MainContent.contextTypes = {
+  router: React.PropTypes.object
+};
 
 export default MainContent;

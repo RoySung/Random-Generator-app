@@ -13,17 +13,39 @@ class LoginPage extends React.Component {
 
   constructor(props) {
     super(props);
+    const user = new User();
     this.state = {
       open: false,
-      isFailed: false
+      isFailed: false,
+      user
     };
+
+    this.checkAuth();
+
     this.handleGoogleSigin = this.handleGoogleSigin.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
 
+  checkAuth() {
+    const user = this.state.user;
+    const { login } = this.props.actions;
+    user.checkAuthCloud().then((result) => {
+      if (result) {
+        this.setState({open: true});
+        login(result);
+        setTimeout(() => {
+          this.context.router.push('/');
+        }, 1000);
+      }
+    })
+    .catch(() => {
+      console.log('Auth is null.');
+    });
+  }
+
   handleGoogleSigin() {
-    const user = new User();
+    const user = this.state.user;
     const { login } = this.props.actions;
     this.handleOpen();
     user.loginWithGoogle().then((result) => {

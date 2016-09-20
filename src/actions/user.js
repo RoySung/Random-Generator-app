@@ -36,6 +36,20 @@ export class User {
     });
   }
 
+  checkAuthCloud() {
+    return new Promise((resolve, reject) => {
+      firebaseAuth.onAuthStateChanged((user) => {
+        if (user) {
+          this.user = user;
+          const userInfo = this.getUserInfo();
+          resolve(userInfo);
+        } else {
+          reject(false);
+        }
+      });
+    });
+  }
+
   updateUserCloud(field, value) {
     firebaseDb.ref(`USERS/${this.user.uid}/${field}`).push(value);
   }
@@ -60,7 +74,6 @@ export class User {
           }
         });
 
-
         const userInfo = this.getUserInfo();
         resolve(userInfo);
         // ...
@@ -77,5 +90,16 @@ export class User {
         // ...
       });
     });
+  }
+
+  logoutCloud() {
+    return new Promise((resolve, reject) => {
+      firebaseAuth.signOut().then(() => {
+        resolve();
+      }, () => {
+        reject();
+      });
+    });
+
   }
 }

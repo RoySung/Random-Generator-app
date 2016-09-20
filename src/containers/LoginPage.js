@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import { login } from '../actions/';
 import Main from '../components/LoginPage';
 
+import { User } from '../actions/user';
+
 class LoginPage extends Component {
   render() {
     const { actions } = this.props;
