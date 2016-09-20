@@ -7,14 +7,37 @@ export class User {
   }
 
   initUserCloud() {
-    const lastLogin = new Date().getTime();
-    firebaseDb.ref(`USERS/${this.user.uid}`).set({
+    const user = this.getUserInfo();
+    const nowDate = new Date().getTime();
+    firebaseDb.ref(`USERS/${user.uid}`).set(user);
+    this.updateUserCloud('login_timestamp', nowDate);
+  }
+
+  getUserInfo() {
+    return {
+      uid: this.user.uid,
       username: this.user.displayName,
       email: this.user.email,
       profile_picture: this.user.photoURL,
-      providerId: this.user.providerData[0].providerId,
-      login_timestamp: [lastLogin]
+      providerId: this.user.providerData[0].providerId
+    };
+  }
+
+  checkNewUserCloud() {
+    return new Promise((resolve, reject) => {
+      firebaseDb.ref(`USERS/${this.user.uid}`).once('value', (snapshot) => {
+        const value = snapshot.val();
+        if (value) {
+          resolve(value);
+        } else {
+          resolve(false);
+        }
+      });
     });
+  }
+
+  updateUserCloud(field, value) {
+    firebaseDb.ref(`USERS/${this.user.uid}/${field}`).push(value);
   }
 
   loginWithGoogle() {
@@ -26,8 +49,20 @@ export class User {
         // The signed-in user info.
         const user = result.user;
         this.user = user;
-        this.initUserCloud();
-        resolve(user);
+
+        this.checkNewUserCloud().then((userData) => {
+          if (userData) {
+            const nowDate = new Date().getTime();
+            this.updateUserCloud('login_timestamp', nowDate);
+            console.log(userData);
+          } else {
+            this.initUserCloud();
+          }
+        });
+
+
+        const userInfo = this.getUserInfo();
+        resolve(userInfo);
         // ...
       }).
       catch((error) => {

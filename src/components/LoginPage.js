@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import cssmodules from 'react-css-modules';
 import styles from './loginpage.cssmodule.css';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -24,9 +24,10 @@ class LoginPage extends React.Component {
 
   handleGoogleSigin() {
     const user = new User();
+    const { login } = this.props.actions;
     this.handleOpen();
     user.loginWithGoogle().then((result) => {
-      console.log(result);
+      login(result);
       this.context.router.push('/');
     }).catch((error) => {
       console.log(error);
@@ -90,7 +91,9 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.displayName = 'LoginPage';
-LoginPage.propTypes = {};
+LoginPage.propTypes = {
+  actions: PropTypes.object.isRequired
+};
 LoginPage.defaultProps = {};
 LoginPage.contextTypes = {
   router: React.PropTypes.object

@@ -6,7 +6,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import syncHistoryWithStore from 'react-router-redux/lib/sync';
 import App from './containers/App';
 import MainContent from './components/MainContent';
-import LoginPage from './components/LoginPage';
+import LoginPage from './containers/LoginPage';
 import RandomNumberContent from './components/RandomNumberContent';
 import RandomCustomContent from './components/RandomCustomContent';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

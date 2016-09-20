@@ -8,10 +8,11 @@
  */
 /* Populated by react-webpack-redux:reducer */
 import { combineReducers } from 'redux';
+import user from '../reducers/user.js';
 import { routerReducer } from 'react-router-redux';
-
 const reducers = {
-  routing: routerReducer
+  routing: routerReducer,
+  user
 };
 const combined = combineReducers(reducers);
 module.exports = combined;

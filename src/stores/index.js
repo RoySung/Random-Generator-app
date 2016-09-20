@@ -1,8 +1,11 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import reducers from '../reducers';
 
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+
 function reduxStore(initialState) {
-  const store = createStore(reducers, initialState,
+  const store = createStoreWithMiddleware(reducers, initialState,
     window.devToolsExtension && window.devToolsExtension());
 
   if (module.hot) {
