@@ -158,7 +158,7 @@ class RandomCustomContent extends React.Component {
           >
             <ContentAdd />
           </FloatingActionButton>
-          <br />
+          <br /><br />
           {items}
           <TextField
             hintText="Please Input Number"

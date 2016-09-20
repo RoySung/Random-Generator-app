@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import './app.css';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import { Link } from 'react-router';
+import { User } from '../actions/user';
 
 const indexLink = <Link to="/" />;
 
@@ -11,6 +12,18 @@ class AppComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    this.checkAuth();
+  }
+
+  checkAuth() {
+    const user = new User();
+    const { login } = this.props.actions;
+    user.checkAuthCloud().then((result) => {
+      console.log('Auth is exit.');
+    })
+    .catch(() => {
+      this.context.router.push('/login');
+    });
   }
 
   render() {
@@ -27,6 +40,12 @@ class AppComponent extends React.Component {
 }
 
 AppComponent.defaultProps = {
+};
+AppComponent.propTypes = {
+  actions: PropTypes.object.isRequired
+};
+AppComponent.contextTypes = {
+  router: React.PropTypes.object
 };
 
 export default AppComponent;

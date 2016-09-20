@@ -6,18 +6,18 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import syncHistoryWithStore from 'react-router-redux/lib/sync';
 import App from './containers/App';
 import MainContent from './components/MainContent';
-import LoginPage from './components/LoginPage';
+import LoginPage from './containers/LoginPage';
 import RandomNumberContent from './components/RandomNumberContent';
 import RandomCustomContent from './components/RandomCustomContent';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
+const store = configureStore();
+const history = syncHistoryWithStore(browserHistory, store);
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
-
-const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
 
 render(
   <Provider store={store}>
