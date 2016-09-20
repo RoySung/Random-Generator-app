@@ -20,6 +20,7 @@ class AppComponent extends React.Component {
     const { login } = this.props.actions;
     user.checkAuthCloud().then((result) => {
       console.log('Auth is exit.');
+      login(result);
     })
     .catch(() => {
       this.context.router.push('/login');

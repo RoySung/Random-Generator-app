@@ -8,7 +8,7 @@ import App from './containers/App';
 import MainContent from './components/MainContent';
 import LoginPage from './containers/LoginPage';
 import RandomNumberContent from './components/RandomNumberContent';
-import RandomCustomContent from './components/RandomCustomContent';
+import RandomCustomContent from './containers/RandomCustomContent';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
