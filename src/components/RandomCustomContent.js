@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import cssmodules from 'react-css-modules';
 import styles from './randomcustomcontent.cssmodule.css';
 
@@ -11,6 +11,11 @@ import Dialog from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import IconButton from 'material-ui/IconButton';
+import ActionGrade from 'material-ui/svg-icons/action/grade';
+import { yellow500 } from 'material-ui/styles/colors';
+
+import { Items } from '../actions/item';
 
 function processRange(start, end) {
   const range = {};
@@ -40,23 +45,41 @@ function randomFromRange(start, end, count, isRepeated) {
 class RandomCustomContent extends React.Component {
   constructor(props) {
     super(props);
+    let key = null;
+    let title = 'default';
+    let items = ['default0', 'default1'];
+    let isSaved = false;
+    if (this.props.item) {
+      const itemInfo = JSON.parse(this.props.item);
+      isSaved = true;
+      key = itemInfo.key;
+      title = itemInfo.title;
+      items = itemInfo.value;
+    }
     this.state = {
-      open: false,
-      items: ['default0', 'default1'],
+      openResult: false,
+      openSave: false,
       count: 1,
       isRepeated: false,
-      result: []
+      result: [],
+      isSaved,
+      key,
+      items,
+      title
     };
     this.handleRandom = this.handleRandom.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.handleOpenResult = this.handleOpenResult.bind(this);
+    this.handleOpenSave = this.handleOpenSave.bind(this);
+    this.handleCloseResult = this.handleCloseResult.bind(this);
+    this.handleCloseSave = this.handleCloseSave.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   handleRandom() {
-    this.handleOpen();
+    this.handleOpenResult();
     let rand = [];
     let result = [];
     rand = randomFromRange(0, this.state.items.length - 1, this.state.count, this.state.isRepeated);
@@ -73,12 +96,31 @@ class RandomCustomContent extends React.Component {
     this.setState({items});
   }
 
-  handleOpen() {
-    this.setState({open: true});
+  handleOpenResult() {
+    this.setState({openResult: true});
   }
 
-  handleClose() {
-    this.setState({open: false});
+  handleOpenSave() {
+    const isSaved = !this.state.isSaved;
+    if (isSaved) {
+      this.setState({openSave: true});
+    } else {
+      const { user } = this.props;
+      const items = new Items(user.uid);
+      const key = this.state.key;
+      items.removeItem(key);
+      this.setState({
+        isSaved
+      });
+    }
+  }
+
+  handleCloseResult() {
+    this.setState({openResult: false});
+  }
+
+  handleCloseSave() {
+    this.setState({openSave: false});
   }
 
   handleInputChange(event) {
@@ -98,13 +140,38 @@ class RandomCustomContent extends React.Component {
   handleCheck(event, isInputChecked) {
     this.setState({isRepeated: isInputChecked});
   }
+
+  handleSave() {
+    const isSaved = !this.state.isSaved;
+    const { user } = this.props;
+    const items = new Items(user.uid);
+    let key = this.state.key;
+    if (isSaved) {
+      key = items.pushItem(this.state.title, this.state.items);
+      this.setState({
+        isSaved,
+        key,
+        openSave: false
+      });
+    }
+  }
+
   render() {
-    const actions = [
+    const actionsResult = [
       <FlatButton
         label="Ok"
         primary
         keyboardFocused
-        onTouchTap={this.handleClose}
+        onTouchTap={this.handleCloseResult}
+      />,
+    ];
+
+    const actionsSave = [
+      <FlatButton
+        label="Save"
+        primary
+        keyboardFocused
+        onTouchTap={this.handleSave}
       />,
     ];
 
@@ -121,17 +188,34 @@ class RandomCustomContent extends React.Component {
       </div>
     );
 
-    const dialog = (
+    const resultDialog = (
       <Dialog
         title="Result"
-        actions={actions}
+        actions={actionsResult}
         modal={false}
         autoScrollBodyContent
-        open={this.state.open}
-        onRequestClose={this.handleAdd}
+        open={this.state.openResult}
       >
         <br />
         {dialogContent}
+      </Dialog>
+    );
+    const saveDialog = (
+      <Dialog
+        title="Save"
+        actions={actionsSave}
+        modal={false}
+        autoScrollBodyContent
+        open={this.state.openSave}
+      >
+        <TextField
+          hintText="Please Input Text"
+          type="text"
+          floatingLabelText="Title"
+          id="title"
+          defaultValue={this.state.title}
+          onChange={this.handleInputChange}
+        />
       </Dialog>
     );
 
@@ -148,17 +232,26 @@ class RandomCustomContent extends React.Component {
         <br />
       </div>
     ));
-
+    let color = null;
+    if (this.state.isSaved) {
+      color = yellow500;
+    }
     return (
       <div className="randomcustomcontent-component" styleName="randomcustomcontent-component">
         <Card>
+          <IconButton
+            styleName="largeIconButton"
+            onTouchTap={this.handleOpenSave}
+          >
+            <ActionGrade color={color} styleName="largeIcon" />
+          </IconButton>
           <FloatingActionButton
             styleName="addButton"
             onTouchTap={this.handleAdd}
           >
             <ContentAdd />
           </FloatingActionButton>
-          <br /><br />
+          <br /><br /><br /><br />
           {items}
           <TextField
             hintText="Please Input Number"
@@ -183,14 +276,18 @@ class RandomCustomContent extends React.Component {
             onTouchTap={this.handleRandom}
           />
         </Card>
-        {dialog}
+        {resultDialog}
+        {saveDialog}
       </div>
     );
   }
 }
 
 RandomCustomContent.displayName = 'RandomCustomContent';
-RandomCustomContent.propTypes = {};
+RandomCustomContent.propTypes = {
+  user: PropTypes.object.isRequired,
+  item: PropTypes.string.isRequired
+};
 RandomCustomContent.defaultProps = {};
 
 export default RandomCustomContent;

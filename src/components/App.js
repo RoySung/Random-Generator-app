@@ -20,6 +20,7 @@ class AppComponent extends React.Component {
     const { login } = this.props.actions;
     user.checkAuthCloud().then((result) => {
       console.log('Auth is exit.');
+      login(result);
     })
     .catch(() => {
       this.context.router.push('/login');
@@ -34,6 +35,7 @@ class AppComponent extends React.Component {
           iconElementLeft={<IconButton containerElement={indexLink} ><ActionHome /></IconButton>}
           className="app-bar"
         />
+        {this.props.children}
       </div>
     );
   }
@@ -42,7 +44,8 @@ class AppComponent extends React.Component {
 AppComponent.defaultProps = {
 };
 AppComponent.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  children: PropTypes.object.isRequired
 };
 AppComponent.contextTypes = {
   router: React.PropTypes.object

@@ -15,13 +15,8 @@ import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions} = this.props;
-    return (
-      <div>
-        <Main actions={actions} />
-        {this.props.children}
-      </div>
-    );
+    const {actions, children} = this.props;
+    return <Main actions={actions} children={children}/>;
   }
 }
 /* Populated by react-webpack-redux:reducer
@@ -31,7 +26,7 @@ class App extends Component {
  */
 App.propTypes = {
   actions: PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired,
+  children: PropTypes.object.isRequired
 };
 function mapStateToProps(state) {
   // eslint-disable-line no-unused-vars
