@@ -35,6 +35,7 @@ class AppComponent extends React.Component {
           iconElementLeft={<IconButton containerElement={indexLink} ><ActionHome /></IconButton>}
           className="app-bar"
         />
+        {this.props.children}
       </div>
     );
   }
@@ -43,7 +44,8 @@ class AppComponent extends React.Component {
 AppComponent.defaultProps = {
 };
 AppComponent.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  children: PropTypes.object.isRequired
 };
 AppComponent.contextTypes = {
   router: React.PropTypes.object

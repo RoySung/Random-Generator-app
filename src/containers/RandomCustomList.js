@@ -6,24 +6,24 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import {} from '../actions/';
-import Main from '../components/RandomCustomContent';
+import Main from '../components/RandomCustomList';
 
-class RandomCustomContent extends Component {
+class RandomCustomList extends Component {
   render() {
     const { actions, user } = this.props;
-    const item = this.props.location.query.item;
-    return <Main actions={actions} user={user} item={item} />;
+    return <Main actions={actions} user={user} />;
   }
 }
 
-RandomCustomContent.propTypes = {
+RandomCustomList.propTypes = {
   actions: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
-  const props = { user: state.user };
+  const props = {
+    user: state.user
+  };
   return props;
 }
 
@@ -33,4 +33,4 @@ function mapDispatchToProps(dispatch) {
   return actionMap;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RandomCustomContent);
+export default connect(mapStateToProps, mapDispatchToProps)(RandomCustomList);

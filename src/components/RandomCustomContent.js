@@ -15,7 +15,7 @@ import IconButton from 'material-ui/IconButton';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import { yellow500 } from 'material-ui/styles/colors';
 
-import { Item } from '../actions/item';
+import { Items } from '../actions/item';
 
 function processRange(start, end) {
   const range = {};
@@ -45,16 +45,27 @@ function randomFromRange(start, end, count, isRepeated) {
 class RandomCustomContent extends React.Component {
   constructor(props) {
     super(props);
+    let key = null;
+    let title = 'default';
+    let items = ['default0', 'default1'];
+    let isSaved = false;
+    if (this.props.item) {
+      const itemInfo = JSON.parse(this.props.item);
+      isSaved = true;
+      key = itemInfo.key;
+      title = itemInfo.title;
+      items = itemInfo.value;
+    }
     this.state = {
       openResult: false,
       openSave: false,
-      items: ['default0', 'default1'],
       count: 1,
       isRepeated: false,
       result: [],
-      key: null,
-      isSaved: false,
-      title: 'default'
+      isSaved,
+      key,
+      items,
+      title
     };
     this.handleRandom = this.handleRandom.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -95,9 +106,9 @@ class RandomCustomContent extends React.Component {
       this.setState({openSave: true});
     } else {
       const { user } = this.props;
-      const item = new Item(user.uid);
+      const items = new Items(user.uid);
       const key = this.state.key;
-      item.removeItem(key);
+      items.removeItem(key);
       this.setState({
         isSaved
       });
@@ -133,10 +144,10 @@ class RandomCustomContent extends React.Component {
   handleSave() {
     const isSaved = !this.state.isSaved;
     const { user } = this.props;
-    const item = new Item(user.uid);
+    const items = new Items(user.uid);
     let key = this.state.key;
     if (isSaved) {
-      key = item.pushItem(this.state.title, this.state.items);
+      key = items.pushItem(this.state.title, this.state.items);
       this.setState({
         isSaved,
         key,
@@ -274,7 +285,8 @@ class RandomCustomContent extends React.Component {
 
 RandomCustomContent.displayName = 'RandomCustomContent';
 RandomCustomContent.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  item: PropTypes.string.isRequired
 };
 RandomCustomContent.defaultProps = {};
 

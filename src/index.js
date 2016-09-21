@@ -9,6 +9,7 @@ import MainContent from './components/MainContent';
 import LoginPage from './containers/LoginPage';
 import RandomNumberContent from './components/RandomNumberContent';
 import RandomCustomContent from './containers/RandomCustomContent';
+import RandomCustomList from './containers/RandomCustomList';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -26,6 +27,7 @@ render(
         <Route path="/" component={App} >
           <IndexRoute component={MainContent} />
           <Route path="number" component={RandomNumberContent} />
+          <Route path="list" component={RandomCustomList} />
           <Route path="custom" component={RandomCustomContent} />
         </Route>
         <Route path="login" component={LoginPage} />

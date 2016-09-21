@@ -3,11 +3,12 @@ import cssmodules from 'react-css-modules';
 import styles from './maincontent.cssmodule.css';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
+import AssignmentReturn from 'material-ui/svg-icons/action/assignment-return';
 import { User } from '../actions/user';
 const yeomanImage = require('../images/yeoman.png');
 
 const numberLink = <Link to="/number" />;
-const customLink = <Link to="/custom" />;
+const listLink = <Link to="/list" />;
 
 @cssmodules(styles)
 class MainContent extends React.Component {
@@ -40,10 +41,10 @@ class MainContent extends React.Component {
         />
         <br />
         <RaisedButton
-          label="Random Customization"
+          label="Random Customization List"
           primary
           styleName="primary-button"
-          containerElement={customLink}
+          containerElement={listLink}
         />
         <br />
         <RaisedButton
@@ -51,6 +52,7 @@ class MainContent extends React.Component {
           primary
           styleName="primary-button"
           onTouchTap={this.logOut}
+          icon={<AssignmentReturn />}
         />
       </div>
     );

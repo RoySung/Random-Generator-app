@@ -1,9 +1,12 @@
-import firebase from 'firebase';
-import { firebaseAuth, firebaseDb } from './firebase';
+import { firebaseDb } from './firebase';
 
-export class Item {
+export class Items {
   constructor(uid) {
     this.uid = uid;
+  }
+
+  getItemsRef() {
+    return firebaseDb.ref(`ITEMS/${this.uid}`);
   }
 
   pushItem(title, value) {
