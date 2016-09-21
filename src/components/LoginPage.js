@@ -8,6 +8,8 @@ import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
 import { User } from '../actions/user';
 
+const diceImage = require('../images/dice.png');
+
 @cssmodules(styles)
 class LoginPage extends React.Component {
 
@@ -91,9 +93,11 @@ class LoginPage extends React.Component {
 
     return (
       <div className="loginpage-component" styleName="loginpage-component">
+        <img src={diceImage} alt="Logo" styleName="logoImage" />
+        <br />
         <RaisedButton
           label="Login with Google"
-          styleName="button"
+          styleName="loginButton"
           primary
           icon={<AccountBox />}
           onTouchTap={this.handleGoogleSigin}

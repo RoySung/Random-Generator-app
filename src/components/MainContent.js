@@ -41,7 +41,7 @@ class MainContent extends React.Component {
         />
         <br />
         <RaisedButton
-          label="Random Customization List"
+          label="Customization List"
           primary
           styleName="primary-button"
           containerElement={listLink}
