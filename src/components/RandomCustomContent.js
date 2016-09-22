@@ -126,15 +126,31 @@ class RandomCustomContent extends React.Component {
   handleInputChange(event) {
     const obj = {};
     const id = event.target.id;
-    const value = event.target.value;
+    let value = event.target.value;
     const regexResult = id.match(/item(.+)/);
     if (regexResult) {
       obj.items = this.state.items;
       obj.items[regexResult[1]] = value;
     } else {
-      obj[id] = value;
+      if (id === 'count') {
+        if (!this.state.isRepeated) {
+          const range = this.state.items.length;
+          value = this.handleValueInRange(value, 0, range);
+        }
+        obj[id] = value;
+      }
     }
     this.setState(obj);
+  }
+
+  handleValueInRange(value, least, range) {
+    let result = value;
+    if (result > range) {
+      result = range;
+    } else if (result < least) {
+      result = least;
+    }
+    return result;
   }
 
   handleCheck(event, isInputChecked) {
@@ -258,7 +274,7 @@ class RandomCustomContent extends React.Component {
             floatingLabelText="Count"
             id="count"
             type="number"
-            defaultValue={this.state.count}
+            value={this.state.count}
             onChange={this.handleInputChange}
           />
           <br /><br />

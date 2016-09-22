@@ -79,7 +79,23 @@ class RandomNumberContent extends React.Component {
   }
 
   handleCountChange(event) {
-    this.setState({count: event.target.value});
+    let count = event.target.value;
+    const { from, to, isRepeated } = this.state;
+    if (!isRepeated) {
+      const range = to - from + 1;
+      count = this.handleValueInRange(count, 0, range);
+    }
+    this.setState({count});
+  }
+
+  handleValueInRange(value, least, range) {
+    let result = value;
+    if (result > range) {
+      result = range;
+    } else if (result < least) {
+      result = least;
+    }
+    return result;
   }
 
   handleCheck(event, isInputChecked) {
@@ -144,7 +160,7 @@ class RandomNumberContent extends React.Component {
           <TextField
             hintText="Please Input Number"
             floatingLabelText="Count"
-            defaultValue={this.state.count}
+            value={this.state.count}
             type="number"
             onChange={this.handleCountChange}
           />

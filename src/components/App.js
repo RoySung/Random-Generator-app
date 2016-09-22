@@ -3,10 +3,9 @@ import './app.css';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
+import HardwareKeyboardBackspace from 'material-ui/svg-icons/hardware/keyboard-backspace';
 import { Link } from 'react-router';
 import { User } from '../actions/user';
-
-const indexLink = <Link to="/" />;
 
 class AppComponent extends React.Component {
 
@@ -28,13 +27,31 @@ class AppComponent extends React.Component {
   }
 
   render() {
-    return (
-      <div className="app">
+    let appBar = (
+      <AppBar
+        title="Random Generator"
+        iconElementLeft={
+          <IconButton containerElement={<Link to="/" />} ><ActionHome /></IconButton>
+        }
+        className="app-bar"
+      />
+    );
+    if (this.props.path !== '/') {
+      appBar = (
         <AppBar
           title="Random Generator"
-          iconElementLeft={<IconButton containerElement={indexLink} ><ActionHome /></IconButton>}
+          iconElementLeft={
+            <IconButton onTouchTap={this.context.router.goBack}>
+              <HardwareKeyboardBackspace />
+            </IconButton>
+          }
           className="app-bar"
         />
+      );
+    }
+    return (
+      <div className="app">
+        {appBar}
         {this.props.children}
       </div>
     );
@@ -45,7 +62,8 @@ AppComponent.defaultProps = {
 };
 AppComponent.propTypes = {
   actions: PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired
+  children: PropTypes.object.isRequired,
+  path: PropTypes.object.isRequired
 };
 AppComponent.contextTypes = {
   router: React.PropTypes.object
