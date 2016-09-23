@@ -30,7 +30,7 @@ function randomFromRange(start, end, count, isRepeated) {
       if (!isRepeated) range[rand] = false;
     }
   }
-  result.sort((a, b) => a - b);
+  // result.sort((a, b) => a - b);
   return result;
 }
 
