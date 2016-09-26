@@ -42,6 +42,8 @@ export class User {
         if (user) {
           this.user = user;
           const userInfo = this.getUserInfo();
+          const nowDate = new Date().getTime();
+          this.pushUserCloud('login_timestamp', nowDate);
           resolve(userInfo);
         } else {
           reject(false);
@@ -50,7 +52,7 @@ export class User {
     });
   }
 
-  updateUserCloud(field, value) {
+  pushUserCloud(field, value) {
     firebaseDb.ref(`USERS/${this.user.uid}/${field}`).push(value);
   }
 
@@ -67,7 +69,7 @@ export class User {
         this.checkNewUserCloud().then((userData) => {
           if (userData) {
             const nowDate = new Date().getTime();
-            this.updateUserCloud('login_timestamp', nowDate);
+            this.pushUserCloud('login_timestamp', nowDate);
             console.log(userData);
           } else {
             this.initUserCloud();
