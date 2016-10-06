@@ -59,12 +59,17 @@ export class User {
   loginWithGoogle() {
     return new Promise((resolve, reject) => {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebaseAuth.signInWithPopup(provider).then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const token = result.credential.accessToken;
+      firebaseAuth.signInWithRedirect(provider);
+      firebaseAuth.getRedirectResult().then((result) => {
+        console.log(result);
+        if (result.credential) {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const token = result.credential.accessToken;
+        }
         // The signed-in user info.
         const user = result.user;
         this.user = user;
+        const userInfo = this.getUserInfo();
 
         this.checkNewUserCloud().then((userData) => {
           if (userData) {
@@ -74,11 +79,9 @@ export class User {
           } else {
             this.initUserCloud();
           }
+          resolve(userInfo);
         });
 
-        const userInfo = this.getUserInfo();
-        resolve(userInfo);
-        // ...
       }).
       catch((error) => {
         reject(error);

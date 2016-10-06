@@ -137,8 +137,8 @@ class RandomCustomContent extends React.Component {
           const range = this.state.items.length;
           value = this.handleValueInRange(value, 0, range);
         }
-        obj[id] = value;
       }
+      obj[id] = value;
     }
     this.setState(obj);
   }

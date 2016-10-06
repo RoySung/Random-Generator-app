@@ -63,7 +63,7 @@ AppComponent.defaultProps = {
 AppComponent.propTypes = {
   actions: PropTypes.object.isRequired,
   children: PropTypes.object.isRequired,
-  path: PropTypes.object.isRequired
+  path: PropTypes.string.isRequired
 };
 AppComponent.contextTypes = {
   router: React.PropTypes.object
