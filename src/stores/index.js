@@ -2,10 +2,15 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from '../reducers';
 
+import Reactotron from 'reactotron-react-js';
+import createReactotronEnhancer from 'reactotron-redux';
+const reactotronEnhancer = createReactotronEnhancer(Reactotron);
+
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 function reduxStore(initialState) {
   const store = createStoreWithMiddleware(reducers, initialState,
+    reactotronEnhancer,
     window.devToolsExtension && window.devToolsExtension());
 
   if (module.hot) {
