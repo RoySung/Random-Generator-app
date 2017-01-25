@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './stores';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import syncHistoryWithStore from 'react-router-redux/lib/sync';
 import App from './containers/App';
 import MainContent from './components/MainContent';
@@ -16,7 +16,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import './config/ReactotronConfig';
 
 const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(hashHistory, store);
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
