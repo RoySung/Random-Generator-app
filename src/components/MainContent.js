@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import AssignmentReturn from 'material-ui/svg-icons/action/assignment-return';
 import { User } from '../actions/user';
-const yeomanImage = require('../images/yeoman.png');
+const diceImage = require('../images/dice.png');
 
 const numberLink = <Link to="/number" />;
 const listLink = <Link to="/list" />;
@@ -31,7 +31,7 @@ class MainContent extends React.Component {
   render() {
     return (
       <div className="maincontent-component" styleName="maincontent-component">
-        <img src={yeomanImage} alt="Yeoman Generator" />
+        <img src={diceImage} styleName="logoImage" alt="Yeoman Generator" />
         <br />
         <RaisedButton
           label="Random Number"

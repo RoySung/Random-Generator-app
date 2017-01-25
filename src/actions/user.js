@@ -68,8 +68,12 @@ export class User {
         }
         // The signed-in user info.
         const user = result.user;
-        this.user = user;
-        const userInfo = this.getUserInfo();
+        let userInfo;
+
+        if (user) {
+          this.user = user;
+          userInfo = this.getUserInfo();
+        }
 
         this.checkNewUserCloud().then((userData) => {
           if (userData) {
