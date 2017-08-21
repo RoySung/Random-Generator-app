@@ -171,9 +171,9 @@ class WebpackBaseConfig {
         ]
       },
       output: {
-        path: path.resolve('./dist/assets'),
+        path: path.resolve('./dist'),
         filename: 'app.js',
-        publicPath: './assets/'
+        publicPath: '/'
       },
       plugins: [],
       resolve: {

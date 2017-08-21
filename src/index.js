@@ -15,6 +15,9 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import './config/ReactotronConfig';
 
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+OfflinePluginRuntime.install();
+
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 

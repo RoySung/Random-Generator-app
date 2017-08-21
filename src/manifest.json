@@ -1,0 +1,14 @@
+{
+  "name": "offline-plugin",
+  "icons": [
+    {
+      "src": "/dice.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#181743",
+  "background_color": "#181743",
+  "start_url": "/",
+  "display": "standalone"
+}
